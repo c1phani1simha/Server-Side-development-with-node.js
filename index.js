@@ -1,13 +1,21 @@
-const express=require('express');
-const http = require('http');
-const bodyParser= require('body-parser');
+var express=require('express');
+var http = require('http');
+var bodyParser= require('body-parser');
+var morgan= require('morgan');
+var dishRouter= require('./routes/dishRouter');
+var promoRouter=require('./routes/promoRouter');
+var leadershipRouter=require('./routes/leadershipRouter');
+var port=3000;
+var hostName='localhost';
 
-const port=3000;
-const hostName='localhost';
+var app =express();
 
-const app =express();
-const dishRouter= require('./routes/dishRouter');
+
+app.use(morgan('dev'));
+
 app.use('/dishes',dishRouter);
+app.use('/promotions',promoRouter);
+app.use('/leaders',leadershipRouter);
 
 
 app.use((req,res,next)=>{
@@ -17,8 +25,7 @@ app.use((req,res,next)=>{
     res.end('<html><body><h1>Yo hablo espanol,Tu hablas ingles?</h1></body></html>');
 })
 
-const server=http.createServer(app);
 
-server.listen(port,hostName,()=>{
+app.listen(port,hostName,()=>{
     console.log(`http://${hostName}:${port}`);
 })
