@@ -6,30 +6,9 @@ const port=3000;
 const hostName='localhost';
 
 const app =express();
-app.use(bodyParser.json());
+const dishRouter= require('./routes/dishRouter');
+app.use('/dishes',dishRouter);
 
-app.all('/dishes',(req,res,next)=>{
-    res.statusCode=200;
-    res.setHeader('Content-Type','text/html');
-    next();
-});
-
-app.get('/dishes',(req,res,next)=>{
-    res.end('Will send all the dishes to you!');
-})
-
-app.post('/dishes',(req,res,next)=>{
-    res.end('will add the dish: '+ req.body.name+' with details: '+req.body.description);
-})
-
-app.put('/dishes',(req,res,next)=>{
-    res.statusCode=403;
-    res.end('PUT operation not supported on /dishes');
-})
-
-app.delete('/dishes',(req,res,next)=>{
-    res.end('deleting all the dishes!');
-})
 
 app.get('/dishes/:dishId',(req,res,next)=>{
     res.end('will send the details of the dish: '+req.params.dishId+ ' to you!');
